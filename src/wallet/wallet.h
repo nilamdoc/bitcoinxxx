@@ -1,10 +1,10 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2021 The Bitcoin Core developers
+// Copyright (c) 2009-2021 The Renaiss Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_WALLET_WALLET_H
-#define BITCOIN_WALLET_WALLET_H
+#ifndef RENAISS_WALLET_WALLET_H
+#define RENAISS_WALLET_WALLET_H
 
 #include <consensus/amount.h>
 #include <fs.h>
@@ -1009,4 +1009,4 @@ struct MigrationResult {
 util::Result<MigrationResult> MigrateLegacyToDescriptor(std::shared_ptr<CWallet>&& wallet, WalletContext& context);
 } // namespace wallet
 
-#endif // BITCOIN_WALLET_WALLET_H
+#endif // RENAISS_WALLET_WALLET_H

@@ -1,0 +1,33 @@
+# /etc/conf.d/renaissd: config file for /etc/init.d/renaissd
+
+# Config file location
+#RENAISSD_CONFIGFILE="/etc/renaiss/renaiss.conf"
+
+# What directory to write pidfile to?  (created and owned by $RENAISSD_USER)
+#RENAISSD_PIDDIR="/var/run/renaissd"
+
+# What filename to give the pidfile
+#RENAISSD_PIDFILE="${RENAISSD_PIDDIR}/renaissd.pid"
+
+# Where to write renaissd data (be mindful that the blockchain is large)
+#RENAISSD_DATADIR="/var/lib/renaissd"
+
+# User and group to own renaissd process
+#RENAISSD_USER="renaiss"
+#RENAISSD_GROUP="renaiss"
+
+# Path to renaissd executable
+#RENAISSD_BIN="/usr/bin/renaissd"
+
+# Nice value to run renaissd under
+#RENAISSD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#RENAISSD_OPTS=""
+
+# The timeout in seconds OpenRC will wait for renaissd to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+RENAISSD_SIGTERM_TIMEOUT=600

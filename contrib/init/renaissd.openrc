@@ -1,0 +1,93 @@
+#!/sbin/openrc-run
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/renaiss/.renaiss" ]; then
+	RENAISSD_DEFAULT_DATADIR="/var/lib/renaiss/.renaiss"
+else
+	RENAISSD_DEFAULT_DATADIR="/var/lib/renaissd"
+fi
+
+RENAISSD_CONFIGFILE=${RENAISSD_CONFIGFILE:-/etc/renaiss/renaiss.conf}
+RENAISSD_PIDDIR=${RENAISSD_PIDDIR:-/var/run/renaissd}
+RENAISSD_PIDFILE=${RENAISSD_PIDFILE:-${RENAISSD_PIDDIR}/renaissd.pid}
+RENAISSD_DATADIR=${RENAISSD_DATADIR:-${RENAISSD_DEFAULT_DATADIR}}
+RENAISSD_USER=${RENAISSD_USER:-${RENAISS_USER:-renaiss}}
+RENAISSD_GROUP=${RENAISSD_GROUP:-renaiss}
+RENAISSD_BIN=${RENAISSD_BIN:-/usr/bin/renaissd}
+RENAISSD_NICE=${RENAISSD_NICE:-${NICELEVEL:-0}}
+RENAISSD_OPTS="${RENAISSD_OPTS:-${RENAISS_OPTS}}"
+
+name="Renaiss Core Daemon"
+description="Renaiss cryptocurrency P2P network daemon"
+
+command="/usr/bin/renaissd"
+command_args="-pid=\"${RENAISSD_PIDFILE}\" \
+		-conf=\"${RENAISSD_CONFIGFILE}\" \
+		-datadir=\"${RENAISSD_DATADIR}\" \
+		-daemon \
+		${RENAISSD_OPTS}"
+
+required_files="${RENAISSD_CONFIGFILE}"
+start_stop_daemon_args="-u ${RENAISSD_USER} \
+			-N ${RENAISSD_NICE} -w 2000"
+pidfile="${RENAISSD_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${RENAISSD_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${RENAISSD_USER}:${RENAISSD_GROUP}" \
+	"${RENAISSD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${RENAISSD_USER}:${RENAISSD_GROUP}" \
+	"${RENAISSD_PIDDIR}"
+
+	checkpath -f \
+	-o "${RENAISSD_USER}:${RENAISSD_GROUP}" \
+	-m 0660 \
+	"${RENAISSD_CONFIGFILE}"
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if grep -qs '^rpcuser=' "${RENAISSD_CONFIGFILE}" && \
+		! grep -qs '^rpcpassword=' "${RENAISSD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run renaissd."
+		eerror "The setting must appear in ${RENAISSD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following "
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Renaiss Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

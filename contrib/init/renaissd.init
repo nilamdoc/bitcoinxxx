@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+#  renaissd The renaiss core server.
+#
+#
+# chkconfig: 345 80 20
+# description: renaissd
+# processname: renaissd
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/renaissd, see below
+if [ -f /etc/sysconfig/renaissd ]; then
+        . /etc/sysconfig/renaissd
+fi
+
+RETVAL=0
+
+prog=renaissd
+# you can override the lockfile via RENAISSD_LOCKFILE in /etc/sysconfig/renaissd
+lockfile=${RENAISSD_LOCKFILE-/var/lock/subsys/renaissd}
+
+# renaissd defaults to /usr/bin/renaissd, override with RENAISSD_BIN
+renaissd=${RENAISSD_BIN-/usr/bin/renaissd}
+
+# renaissd opts default to -disablewallet, override with RENAISSD_OPTS
+renaissd_opts=${RENAISSD_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $renaissd $renaissd_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -t600
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
