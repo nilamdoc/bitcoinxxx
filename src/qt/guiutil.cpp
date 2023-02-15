@@ -176,7 +176,7 @@ bool parseRenaissURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if (!RenaissUnits::parse(RenaissUnit::BTC, i->second, &rv.amount)) {
+                if (!RenaissUnits::parse(RenaissUnit::REN, i->second, &rv.amount)) {
                     return false;
                 }
             }
@@ -208,7 +208,7 @@ QString formatRenaissURI(const SendCoinsRecipient &info)
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(RenaissUnits::format(RenaissUnit::BTC, info.amount, false, RenaissUnits::SeparatorStyle::NEVER));
+        ret += QString("?amount=%1").arg(RenaissUnits::format(RenaissUnit::REN, info.amount, false, RenaissUnits::SeparatorStyle::NEVER));
         paramCount++;
     }
 

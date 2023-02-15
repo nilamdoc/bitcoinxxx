@@ -507,7 +507,7 @@ void CoinControlDialog::updateLabels(CCoinControl& m_coin_control, WalletModel *
     }
 
     // actually update labels
-    RenaissUnit nDisplayUnit = RenaissUnit::BTC;
+    RenaissUnit nDisplayUnit = RenaissUnit::REN;
     if (model && model->getOptionsModel())
         nDisplayUnit = model->getOptionsModel()->getDisplayUnit();
 

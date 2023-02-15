@@ -125,7 +125,7 @@ public:
         vSeeds.emplace_back("dnsseed.renaiss.dashjr.org."); // Luke Dashjr
         vSeeds.emplace_back("seed.renaissstats.com."); // Christian Decker, supports x1 - xf
         vSeeds.emplace_back("seed.renaiss.jonasschnelli.ch."); // Jonas Schnelli, only supports x1, x5, x9, and xd
-        vSeeds.emplace_back("seed.btc.petertodd.org."); // Peter Todd, only supports x1, x5, x9, and xd
+        vSeeds.emplace_back("seed.ren.petertodd.org."); // Peter Todd, only supports x1, x5, x9, and xd
         vSeeds.emplace_back("seed.renaiss.sprovoost.nl."); // Sjors Provoost
         vSeeds.emplace_back("dnsseed.emzy.de."); // Stephan Oeste
         vSeeds.emplace_back("seed.renaiss.wiz.biz."); // Jason Maurice
@@ -234,7 +234,7 @@ public:
         vSeeds.clear();
         // nodes with support for servicebits filtering should be at the top
         vSeeds.emplace_back("testnet-seed.renaiss.jonasschnelli.ch.");
-        vSeeds.emplace_back("seed.tbtc.petertodd.org.");
+        vSeeds.emplace_back("seed.tren.petertodd.org.");
         vSeeds.emplace_back("seed.testnet.renaiss.sprovoost.nl.");
         vSeeds.emplace_back("testnet-seed.bluematt.me."); // Just a static list of stable node(s), only supports x9
 

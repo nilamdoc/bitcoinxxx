@@ -70,7 +70,7 @@ class SimulateTxTest(RenaissTestFramework):
         tx1changepos = funding["changepos"]
         renaiss_fee = Decimal(funding["fee"])
 
-        # w0 sees fee + 5 btc decrease, w2 sees + 5 btc
+        # w0 sees fee + 5 ren decrease, w2 sees + 5 ren
         assert_approx(w0.simulaterawtransaction([tx1])["balance_change"], -(Decimal("5") + renaiss_fee))
         assert_approx(w2.simulaterawtransaction([tx1])["balance_change"], Decimal("5"))
 

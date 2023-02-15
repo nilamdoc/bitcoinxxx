@@ -61,7 +61,7 @@ To run:
 
 * UI elements like RenaissAmountField, which inherit from QWidget.
 * `renaissstrings.cpp`: automatically generated
-* `renaissunits.(h/cpp)`: BTC / mBTC / etc. handling
+* `renaissunits.(h/cpp)`: REN / mREN / etc. handling
 * `callback.h`
 * `guiconstants.h`: UI colors, app name, etc.
 * `guiutil.h`: several helper functions

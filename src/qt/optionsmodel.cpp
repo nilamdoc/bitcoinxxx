@@ -166,13 +166,13 @@ bool OptionsModel::Init(bilingual_str& error)
 
     // Display
     if (!settings.contains("DisplayRenaissUnit")) {
-        settings.setValue("DisplayRenaissUnit", QVariant::fromValue(RenaissUnit::BTC));
+        settings.setValue("DisplayRenaissUnit", QVariant::fromValue(RenaissUnit::REN));
     }
     QVariant unit = settings.value("DisplayRenaissUnit");
     if (unit.canConvert<RenaissUnit>()) {
         m_display_renaiss_unit = unit.value<RenaissUnit>();
     } else {
-        m_display_renaiss_unit = RenaissUnit::BTC;
+        m_display_renaiss_unit = RenaissUnit::REN;
         settings.setValue("DisplayRenaissUnit", QVariant::fromValue(m_display_renaiss_unit));
     }
 
@@ -421,7 +421,7 @@ QVariant OptionsModel::getOption(OptionID option) const
         return m_use_embedded_monospaced_font;
     case CoinControlFeatures:
         return fCoinControlFeatures;
-    case EnablePSBTControls:
+    case EnablePSRENontrols:
         return settings.value("enable_psbt_controls");
     case Prune:
         return PruneEnabled(setting());
@@ -574,7 +574,7 @@ bool OptionsModel::setOption(OptionID option, const QVariant& value)
         settings.setValue("fCoinControlFeatures", fCoinControlFeatures);
         Q_EMIT coinControlFeaturesChanged(fCoinControlFeatures);
         break;
-    case EnablePSBTControls:
+    case EnablePSRENontrols:
         m_enable_psbt_controls = value.toBool();
         settings.setValue("enable_psbt_controls", m_enable_psbt_controls);
         break;
